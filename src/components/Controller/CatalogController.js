@@ -1,7 +1,8 @@
 import React from "react";
 
-export default function CatalogController(){
+export default function CatalogController() {
 
-    return
-    <></>
+    return (
+        <></>
+    );
 }

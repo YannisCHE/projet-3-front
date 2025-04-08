@@ -42,7 +42,7 @@ export default function App(){
                   <i className='fa fa-home me-2 navbar-icon'></i>
                   Accueil 
                 </Nav.Link>
-                <Nav.Link as={Link} eventKey='2' to="/orders" hidden={user === null || user.role !== "OPTICIAN"}>
+                <Nav.Link as={Link} eventKey='2' to="/orders" /* hidden={user === null || user.role !== "OPTICIAN"} */>
                   <i className='fa fa-eye me-2  navbar-icon'></i>
                   Commander
                 </Nav.Link>
