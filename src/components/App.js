@@ -8,6 +8,8 @@ import ConnectionController from "./Controller/ConnectionController";
 import OrdersController from "./Controller/OrdersController";
 import CatalogController from "./Controller/CatalogController";
 import RegisterController from "./Controller/RegisterController";
+import SummaryController from "./Controller/SummaryController";
+import HistoryController from "./Controller/HistoryController";
 
 export default function App(){
 
@@ -42,11 +44,15 @@ export default function App(){
                   <i className='fa fa-home me-2 navbar-icon'></i>
                   Accueil 
                 </Nav.Link>
-                <Nav.Link as={Link} eventKey='2' to="/orders" /* hidden={user === null || user.role !== "OPTICIAN"} */>
+                <Nav.Link as={Link} eventKey='2' to="/orders"  hidden={user === null || user.role !== "OPTICIAN"}>
                   <i className='fa fa-eye me-2  navbar-icon'></i>
                   Commander
                 </Nav.Link>
-                <Nav.Link as={Link} eventKey='4' to="/catalog" hidden={user === null || user.role !== "ADMIN"}>
+                <Nav.Link as={Link} eventKey='7' to="/history" hidden={user === null || user.role !== "OPTICIAN"}>
+                  <i className='fa fa-table-list me-2 navbar-icon'></i>
+                  Historique 
+                </Nav.Link>
+                <Nav.Link as={Link} eventKey='3' to="/catalog" hidden={user === null || user.role !== "ADMIN"}>
                   <i className='fa fa-table-list me-2 navbar-icon'></i>
                   Catalogue
                 </Nav.Link>
@@ -80,6 +86,8 @@ export default function App(){
               <Route exact path="/register" element={<RegisterController />} />
               <Route exact path="/orders" element={<OrdersController/>} />
               <Route exact path="/catalog" element={<CatalogController/>} />
+              <Route exact path="/summary" element={<SummaryController/>} />
+              <Route exact path="/history" element={<HistoryController/>} />
             </Routes>
           </Container>
         </article>

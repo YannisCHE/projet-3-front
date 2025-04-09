@@ -89,12 +89,7 @@ export default function OrdersController() {
     }
 
     function placeOrder(orderFields, lensTypeFields, lensFields, refractiveValueFields) {
-        console.log("user :", user)
-        console.log("order :", orderFields)
-        console.log("lens type :", lensTypeFields)
-        console.log("lens :", lensFields)
-        console.log("refractive :", refractiveValueFields)
-
+        
         const rightLens = {
             sphere: orderFields.sphereOD,
             cylinder: orderFields.cylinderOD,
@@ -129,7 +124,7 @@ export default function OrdersController() {
             coatingsOrderAddDto: coatings
         }
 
-        console.log("final object orders :", order)
+
         const requestOptions = {
             method: "POST",
             headers: {
@@ -141,15 +136,19 @@ export default function OrdersController() {
         fetch(`${backUrl}/orders/place`, requestOptions)
             .then(response => {
                 if (response.ok) {
-                    navigate("/welcome")
-                    return null;
+                    return response.text();
                 } else {
-                    return response.text()
+                    return response.text();
                 }
             })
-            .then(text => setMessage(text));
+            .then(result => {
+                if (result && !isNaN(result)) { 
+                    navigate("/summary", { state: { orderId: result } });
+                } else {
+                    setMessage(result); 
+                }
+            });
     }
-
     return (
         <OrderView
             rangeSpheres={rangeSpheres}

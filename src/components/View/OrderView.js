@@ -280,6 +280,7 @@ export default function OrderView(props) {
                     </Col>
                 </Row>
             </Card>
+            {refractiveValueFields.price !== "" && lensFields.price !== "" && (
             <Row className="mt-3 max-width-50-rem p-0">
                 <Col className="ps-0 pe-3">
                     <Card>
@@ -454,13 +455,15 @@ export default function OrderView(props) {
                     </Card>
                 </Col>
             </Row>
+            )}
+            {refractiveValueFields.price !== "" && lensFields.price !== "" && (
             <Card className="max-width-50-rem p-0 mb-3 mt-3">
                 <Card.Header className="text-center">Traitement</Card.Header>
                 <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                    <Col sm={2}>
+                    <Col xs={5} md={2} lg={2}>
                         <label>Anti-rayure</label>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={6} md={4} lg={2}>
                         <InputGroup >
                             <Form.Select
                                 name="antiScratchId"
@@ -483,20 +486,20 @@ export default function OrderView(props) {
                             </Form.Select>
                         </InputGroup>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={5} md={3} lg={2}>
                         <label>prix par verre</label>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={6} md={3} lg={2}>
                         <InputGroup>
                             <Form.Control type="text" value={priceCoatingFields.antiScratch !== 0 ? `${priceCoatingFields.antiScratch} euros` : ""} readOnly />
                         </InputGroup>
                     </Col>
                 </Row>
                 <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                    <Col sm={2}>
+                    <Col xs={5} md={2} lg={2}>
                         <label>Anti-reflet</label>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={6} md={4} lg={2}>
                         <InputGroup >
                             <Form.Select
                                 name="antiReflectionId"
@@ -519,20 +522,20 @@ export default function OrderView(props) {
                             </Form.Select>
                         </InputGroup>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={5} md={3} lg={2}>
                         <label>prix par verre</label>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={6} md={3} lg={2}>
                         <InputGroup>
                             <Form.Control type="text" value={priceCoatingFields.antiReflection !== 0 ? `${priceCoatingFields.antiReflection} euros` : ""} readOnly />
                         </InputGroup>
                     </Col>
                 </Row>
                 <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                    <Col sm={2}>
+                    <Col xs={5} md={2} lg={2}>
                         <label>Solaire</label>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={6} md={4} lg={2}>
                         <InputGroup >
                             <Form.Select
                                 name="solarId"
@@ -555,10 +558,10 @@ export default function OrderView(props) {
                             </Form.Select>
                         </InputGroup>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={5} md={3} lg={2}>
                         <label>prix par verre</label>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={6} md={3} lg={2}>
                         <InputGroup>
                             <Form.Control
                                 type="text"
@@ -569,16 +572,18 @@ export default function OrderView(props) {
                     </Col>
                 </Row>
             </Card>
+            )}
+            {refractiveValueFields.price !== "" && lensFields.price !== "" && (
             <Card className="max-width-50-rem p-0 mb-3 mt-3">
                 <Card.Header className="text-center">Prix Finale</Card.Header>
                 <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                    <Col sm={{ span: 2, offset: 5 }}>
-                        <InputGroup>
-                            <Form.Control type="text" value={finalCalculatedPrice} readOnly />
-                        </InputGroup>
+                    <Col className="text-center">
+                        <label>{finalCalculatedPrice}</label>
                     </Col>
                 </Row>
             </Card>
+            )}
+            {refractiveValueFields.price !== "" && lensFields.price !== "" &&(
             <Row className="pb-3 ps-3 pe-3">
                 <Col className="text-center">
                     <Button variant="success" onClick={() => props.placeOrder(orderFields,
@@ -595,6 +600,7 @@ export default function OrderView(props) {
                     )}
                 </Col>
             </Row>
+            )}
         </Row>
     )
 }
