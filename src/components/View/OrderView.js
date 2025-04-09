@@ -115,6 +115,30 @@ export default function OrderView(props) {
 
     };
 
+    const resetField = (fieldName) => {
+        setOrderFileds({ ...orderFields, [fieldName]: ""})
+
+        if (fieldName === "antiReflectionId") {
+            setPriceCoatingFields({
+                ...priceCoatingFields,
+                antiReflection: 0
+            });
+
+        } else if (fieldName === "antiScratchId") {
+            setPriceCoatingFields({
+                ...priceCoatingFields,
+                antiScratch: 0
+            });
+
+        } else if (fieldName === "solarId") {
+            setPriceCoatingFields({
+                ...priceCoatingFields,
+                solar: 0
+            });
+
+        }
+    }
+
     const HandleChangeMaterial = (e) => {
         const value = e.target.value;
         props.fetchRefractiveValues(value);
@@ -152,7 +176,7 @@ export default function OrderView(props) {
                     <Col sm={2}>
                         <label>Type de verre</label>
                     </Col>
-                    <Col sm={3}>
+                    <Col sm={5} lg={3}>
                         <InputGroup >
                             <Form.Select
                                 name="lensType"
@@ -172,10 +196,10 @@ export default function OrderView(props) {
                     </Col>
                 </Row>
                 <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                    <Col sm={2}>
+                    <Col xs={5} md={2} lg={2}>
                         <label>Verre</label>
                     </Col>
-                    <Col sm={3}>
+                    <Col xs={6} md={4} lg={3}>
                         <InputGroup name="lens">
                             <Form.Select
                                 name="idLens"
@@ -197,10 +221,10 @@ export default function OrderView(props) {
                             </Form.Select>
                         </InputGroup>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={5} md={3} lg={2}>
                         <label>Diamètre</label>
                     </Col>
-                    <Col sm={3}>
+                    <Col xs={6} md={3} lg={2}>
                         <InputGroup >
                             <Form.Select
                                 name="diameterId"
@@ -220,10 +244,10 @@ export default function OrderView(props) {
                     </Col>
                 </Row>
                 <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                    <Col sm={2}>
+                    <Col xs={5} md={2} lg={2}>
                         <label>Matière</label>
                     </Col>
-                    <Col sm={3}>
+                    <Col xs={6} md={4} lg={3}>
                         <InputGroup >
                             <Form.Select
                                 name="materialId"
@@ -244,12 +268,13 @@ export default function OrderView(props) {
                             </Form.Select>
                         </InputGroup>
                     </Col>
-                    <Col sm={2}>
+                    <Col xs={5} md={3} lg={2}>
                         <label>Indice de Réfraction</label>
                     </Col>
-                    <Col sm={3}>
+                    <Col xs={6} md={3} lg={2}>
                         <InputGroup >
                             <Form.Select
+                                disabled={!orderFields.materialId}
                                 name="refractiveValue"
                                 onChange={(e) => {
                                     handleChangeRefractiveValue(e)
@@ -273,7 +298,7 @@ export default function OrderView(props) {
                     <Col sm={2}>
                         <label>prix par verre</label>
                     </Col>
-                    <Col sm={4}>
+                    <Col sm={8} lg={5}>
                         <InputGroup>
                             <Form.Control type="text" value={calculatedLensPrice} readOnly />
                         </InputGroup>
@@ -281,325 +306,365 @@ export default function OrderView(props) {
                 </Row>
             </Card>
             {refractiveValueFields.price !== "" && lensFields.price !== "" && (
-            <Row className="mt-3 max-width-50-rem p-0">
-                <Col className="ps-0 pe-3">
-                    <Card>
-                        <Card.Header className="text-center">Verre gauche</Card.Header>
-                        <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                            <Col sm={4}>
-                                <label>Sphere</label>
-                            </Col>
-                            <Col sm={6}>
-                                <InputGroup >
-                                    <Form.Select
-                                        name="sphereOG"
-                                        onChange={handleChangeOrder}
-                                    >
-                                        <option className={`d-none`} value="-">-</option>
-                                        {props.rangeSpheres && Object.values(props.rangeSpheres).map((sphere, index) => (
-                                            <option
-                                                key={index}
-                                                value={sphere}
-                                            >
-                                                {sphere}
-                                            </option>
-                                        ))}
-                                    </Form.Select>
-                                </InputGroup>
-                            </Col>
-                        </Row>
-                        <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                            <Col sm={4}>
-                                <label>Cylindre</label>
-                            </Col>
-                            <Col sm={6}>
-                                <InputGroup >
-                                    <Form.Select
-                                        name="cylinderOG"
-                                        onChange={handleChangeOrder}
-                                    >
-                                        <option className={`d-none`} value="-">-</option>
-                                        {props.rangeCylinders && Object.values(props.rangeCylinders).map((cylinder, index) => (
-                                            <option
-                                                key={index}
-                                                value={cylinder}
-                                            >
-                                                {cylinder}
-                                            </option>
-                                        ))}
-                                    </Form.Select>
-                                </InputGroup>
-                            </Col>
-                        </Row>
-                        <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                            <Col sm={4}>
-                                <label>Axe</label>
-                            </Col>
-                            <Col sm={6}>
-                                <InputGroup>
-                                    <Form.Control type="text" name="axisOG" value={orderFields.axisOG} onChange={handleChangeOrder} />
-                                </InputGroup>
-                            </Col>
-                        </Row>
-                        {Number(lensTypeFields.lensTypeId) === 2 && (
+                <Row className="mt-3 max-width-50-rem p-0">
+                    <Col className="ps-0 pe-0 ps-lg-0 pe-lg-3 mb-3 mb-lg-0" xs={12} lg={6}>
+                        <Card>
+                            <Card.Header className="text-center">Verre gauche</Card.Header>
                             <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
                                 <Col sm={4}>
-                                    <label>Addition</label>
+                                    <label>Sphere</label>
                                 </Col>
                                 <Col sm={6}>
                                     <InputGroup >
                                         <Form.Select
-                                            name="additionOG"
+                                            name="sphereOG"
                                             onChange={handleChangeOrder}
                                         >
                                             <option className={`d-none`} value="-">-</option>
-                                            {props.rangeAdditions && Object.values(props.rangeAdditions).map((addition, index) => (
+                                            {props.rangeSpheres && Object.values(props.rangeSpheres).map((sphere, index) => (
                                                 <option
                                                     key={index}
-                                                    value={addition}
+                                                    value={sphere}
                                                 >
-                                                    {addition}
+                                                    {sphere}
                                                 </option>
                                             ))}
                                         </Form.Select>
                                     </InputGroup>
                                 </Col>
                             </Row>
-                        )}
-                    </Card>
-                </Col>
-                <Col className="ps-3 pe-0">
-                    <Card>
-                        <Card.Header className="text-center">Verre droit</Card.Header>
-                        <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                            <Col sm={4}>
-                                <label>Sphere</label>
-                            </Col>
-                            <Col sm={6}>
-                                <InputGroup>
-                                    <Form.Select
-                                        name="sphereOD"
-                                        onChange={handleChangeOrder}
-                                    >
-                                        <option className={`d-none`} value="-">-</option>
-                                        {props.rangeSpheres && Object.values(props.rangeSpheres).map((sphere, index) => (
-                                            <option
-                                                key={index}
-                                                value={sphere}
-                                            >
-                                                {sphere}
-                                            </option>
-                                        ))}
-                                    </Form.Select>
-                                </InputGroup>
-                            </Col>
-                        </Row>
-                        <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                            <Col sm={4}>
-                                <label>Cylindre</label>
-                            </Col>
-                            <Col sm={6}>
-                                <InputGroup >
-                                    <Form.Select
-                                        name="cylinderOD"
-                                        onChange={handleChangeOrder}
-                                    >
-                                        <option className={`d-none`} value="-">-</option>
-                                        {props.rangeCylinders && Object.values(props.rangeCylinders).map((cylinder, index) => (
-                                            <option
-                                                key={index}
-                                                value={cylinder}
-                                            >
-                                                {cylinder}
-                                            </option>
-                                        ))}
-                                    </Form.Select>
-                                </InputGroup>
-                            </Col>
-                        </Row>
-                        <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                            <Col sm={4}>
-                                <label>Axe</label>
-                            </Col>
-                            <Col sm={6}>
-                                <InputGroup>
-                                    <Form.Control type="text" name="axisOD" value={orderFields.axisOD} onChange={handleChangeOrder} />
-                                </InputGroup>
-                            </Col>
-                        </Row>
-                        {Number(lensTypeFields.lensTypeId) === 2 && (
                             <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
                                 <Col sm={4}>
-                                    <label>Addition</label>
+                                    <label>Cylindre</label>
                                 </Col>
                                 <Col sm={6}>
                                     <InputGroup >
                                         <Form.Select
-                                            name="additionOD"
+                                            name="cylinderOG"
+                                            value={orderFields.cylinderOG || "-"}
                                             onChange={handleChangeOrder}
                                         >
                                             <option className={`d-none`} value="-">-</option>
-                                            {props.rangeAdditions && Object.values(props.rangeAdditions).map((addition, index) => (
+                                            {props.rangeCylinders && Object.values(props.rangeCylinders).map((cylinder, index) => (
                                                 <option
                                                     key={index}
-                                                    value={addition}
+                                                    value={cylinder}
                                                 >
-                                                    {addition}
+                                                    {cylinder}
+                                                </option>
+                                            ))}
+                                        </Form.Select>
+                                    </InputGroup>
+                                </Col>
+                                <Col xs={1}>
+                                    <Button
+                                        onClick={() => resetField("cylinderOG")}
+                                    >
+                                        <i className="fa fa-solid fa-eraser"></i>
+                                    </Button>
+                                </Col>
+                            </Row>
+                            <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                                <Col sm={4}>
+                                    <label>Axe</label>
+                                </Col>
+                                <Col sm={6}>
+                                    <InputGroup>
+                                        <Form.Control type="text" name="axisOG" value={orderFields.axisOG} onChange={handleChangeOrder} />
+                                    </InputGroup>
+                                </Col>
+                            </Row>
+                            {Number(lensTypeFields.lensTypeId) === 2 && (
+                                <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                                    <Col sm={4}>
+                                        <label>Addition</label>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <InputGroup >
+                                            <Form.Select
+                                                name="additionOG"
+                                                onChange={handleChangeOrder}
+                                            >
+                                                <option className={`d-none`} value="-">-</option>
+                                                {props.rangeAdditions && Object.values(props.rangeAdditions).map((addition, index) => (
+                                                    <option
+                                                        key={index}
+                                                        value={addition}
+                                                    >
+                                                        {addition}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
+                                        </InputGroup>
+                                    </Col>
+                                </Row>
+                            )}
+                        </Card>
+                    </Col>
+                    <Col className="ps-0 pe-0 ps-lg-3 pe-lg-0" xs={12} lg={6}>
+                        <Card>
+                            <Card.Header className="text-center">Verre droit</Card.Header>
+                            <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                                <Col sm={4}>
+                                    <label>Sphere</label>
+                                </Col>
+                                <Col sm={6}>
+                                    <InputGroup>
+                                        <Form.Select
+                                            name="sphereOD"
+                                            onChange={handleChangeOrder}
+                                        >
+                                            <option className={`d-none`} value="-">-</option>
+                                            {props.rangeSpheres && Object.values(props.rangeSpheres).map((sphere, index) => (
+                                                <option
+                                                    key={index}
+                                                    value={sphere}
+                                                >
+                                                    {sphere}
                                                 </option>
                                             ))}
                                         </Form.Select>
                                     </InputGroup>
                                 </Col>
                             </Row>
-                        )}
-                    </Card>
-                </Col>
-            </Row>
+                            <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                                <Col sm={4}>
+                                    <label>Cylindre</label>
+                                </Col>
+                                <Col sm={6}>
+                                    <InputGroup >
+                                        <Form.Select
+                                            name="cylinderOD"
+                                            value={orderFields.cylinderOD || "-"}
+                                            onChange={handleChangeOrder}
+                                        >
+                                            <option className={`d-none`} value="-">-</option>
+                                            {props.rangeCylinders && Object.values(props.rangeCylinders).map((cylinder, index) => (
+                                                <option
+                                                    key={index}
+                                                    value={cylinder}
+                                                >
+                                                    {cylinder}
+                                                </option>
+                                            ))}
+                                        </Form.Select>
+                                    </InputGroup>
+                                </Col>
+                                <Col xs={1}>
+                                    <Button
+                                        onClick={() => resetField("cylinderOD")}
+                                    >
+                                        <i className="fa fa-solid fa-eraser"></i>
+                                    </Button>
+                                </Col>
+                            </Row>
+                            <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                                <Col sm={4}>
+                                    <label>Axe</label>
+                                </Col>
+                                <Col sm={6}>
+                                    <InputGroup>
+                                        <Form.Control type="text" name="axisOD" value={orderFields.axisOD} onChange={handleChangeOrder} />
+                                    </InputGroup>
+                                </Col>
+                            </Row>
+                            {Number(lensTypeFields.lensTypeId) === 2 && (
+                                <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                                    <Col sm={4}>
+                                        <label>Addition</label>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <InputGroup >
+                                            <Form.Select
+                                                name="additionOD"
+                                                onChange={handleChangeOrder}
+                                            >
+                                                <option className={`d-none`} value="-">-</option>
+                                                {props.rangeAdditions && Object.values(props.rangeAdditions).map((addition, index) => (
+                                                    <option
+                                                        key={index}
+                                                        value={addition}
+                                                    >
+                                                        {addition}
+                                                    </option>
+                                                ))}
+                                            </Form.Select>
+                                        </InputGroup>
+                                    </Col>
+                                </Row>
+                            )}
+                        </Card>
+                    </Col>
+                </Row>
             )}
             {refractiveValueFields.price !== "" && lensFields.price !== "" && (
-            <Card className="max-width-50-rem p-0 mb-3 mt-3">
-                <Card.Header className="text-center">Traitement</Card.Header>
-                <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                    <Col xs={5} md={2} lg={2}>
-                        <label>Anti-rayure</label>
-                    </Col>
-                    <Col xs={6} md={4} lg={2}>
-                        <InputGroup >
-                            <Form.Select
-                                name="antiScratchId"
-                                onChange={(e) => {
-                                    handleChangeOrder(e)
-                                    handleChangeCoating(e)
-                                }}
+                <Card className="max-width-50-rem p-0 mb-3 mt-3">
+                    <Card.Header className="text-center">Traitement</Card.Header>
+                    <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                        <Col xs={4} md={2} lg={2}>
+                            <label>Anti-rayure</label>
+                        </Col>
+                        <Col xs={6} md={3} lg={2}>
+                            <InputGroup >
+                                <Form.Select
+                                    name="antiScratchId"
+                                    value={orderFields.antiScratchId || "-"}
+                                    onChange={(e) => {
+                                        handleChangeOrder(e)
+                                        handleChangeCoating(e)
+                                    }}
+                                >
+                                    <option className={`d-none`} value="-">-</option>
+                                    {props.coatings && Object.values(props.coatings)
+                                        .filter(coating => coating.typeCoatingId === 2)
+                                        .map(coating => (
+                                            <option
+                                                key={coating.availableCoatingId}
+                                                value={coating.availableCoatingId}
+                                            >
+                                                {coating.coatingName}
+                                            </option>
+                                        ))}
+                                </Form.Select>
+                            </InputGroup>
+                        </Col>
+                        <Col xs={4} md={3} lg={2}>
+                            <label>prix par verre</label>
+                        </Col>
+                        <Col xs={4} md={3} lg={2}>
+                            <InputGroup>
+                                <Form.Control type="text" value={priceCoatingFields.antiScratch !== 0 ? `${priceCoatingFields.antiScratch} euros` : ""} readOnly />
+                            </InputGroup>
+                        </Col>
+                        <Col xs={1}>
+                            <Button
+                                onClick={() => resetField("antiScratchId")}
                             >
-                                <option className={`d-none`} value="-">-</option>
-                                {props.coatings && Object.values(props.coatings)
-                                    .filter(coating => coating.typeCoatingId === 2)
-                                    .map(coating => (
-                                        <option
-                                            key={coating.availableCoatingId}
-                                            value={coating.availableCoatingId}
-                                        >
-                                            {coating.coatingName}
-                                        </option>
-                                    ))}
-                            </Form.Select>
-                        </InputGroup>
-                    </Col>
-                    <Col xs={5} md={3} lg={2}>
-                        <label>prix par verre</label>
-                    </Col>
-                    <Col xs={6} md={3} lg={2}>
-                        <InputGroup>
-                            <Form.Control type="text" value={priceCoatingFields.antiScratch !== 0 ? `${priceCoatingFields.antiScratch} euros` : ""} readOnly />
-                        </InputGroup>
-                    </Col>
-                </Row>
-                <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                    <Col xs={5} md={2} lg={2}>
-                        <label>Anti-reflet</label>
-                    </Col>
-                    <Col xs={6} md={4} lg={2}>
-                        <InputGroup >
-                            <Form.Select
-                                name="antiReflectionId"
-                                onChange={(e) => {
-                                    handleChangeOrder(e)
-                                    handleChangeCoating(e)
-                                }}
+                                <i className="fa fa-solid fa-eraser"></i>
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                        <Col xs={4} md={2} lg={2}>
+                            <label>Anti-reflet</label>
+                        </Col>
+                        <Col xs={6} md={3} lg={2}>
+                            <InputGroup >
+                                <Form.Select
+                                    name="antiReflectionId"
+                                    value={orderFields.antiReflectionId || "-"}
+                                    onChange={(e) => {
+                                        handleChangeOrder(e)
+                                        handleChangeCoating(e)
+                                    }}
+                                >
+                                    <option className={`d-none`} value="-">-</option>
+                                    {props.coatings && Object.values(props.coatings)
+                                        .filter(coating => coating.typeCoatingId === 1)
+                                        .map(coating => (
+                                            <option
+                                                key={coating.availableCoatingId}
+                                                value={coating.availableCoatingId}
+                                            >
+                                                {coating.coatingName}
+                                            </option>
+                                        ))}
+                                </Form.Select>
+                            </InputGroup>
+                        </Col>
+                        <Col xs={4} md={3} lg={2}>
+                            <label>prix par verre</label>
+                        </Col>
+                        <Col xs={4} md={3} lg={2}>
+                            <InputGroup>
+                                <Form.Control type="text" value={priceCoatingFields.antiReflection !== 0 ? `${priceCoatingFields.antiReflection} euros` : ""} readOnly />
+                            </InputGroup>
+                        </Col>
+                        <Col xs={1}>
+                            <Button
+                                onClick={() => resetField("antiReflectionId")}
                             >
-                                <option className={`d-none`} value="-">-</option>
-                                {props.coatings && Object.values(props.coatings)
-                                    .filter(coating => coating.typeCoatingId === 1)
-                                    .map(coating => (
-                                        <option
-                                            key={coating.availableCoatingId}
-                                            value={coating.availableCoatingId}
-                                        >
-                                            {coating.coatingName}
-                                        </option>
-                                    ))}
-                            </Form.Select>
-                        </InputGroup>
-                    </Col>
-                    <Col xs={5} md={3} lg={2}>
-                        <label>prix par verre</label>
-                    </Col>
-                    <Col xs={6} md={3} lg={2}>
-                        <InputGroup>
-                            <Form.Control type="text" value={priceCoatingFields.antiReflection !== 0 ? `${priceCoatingFields.antiReflection} euros` : ""} readOnly />
-                        </InputGroup>
-                    </Col>
-                </Row>
-                <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
-                    <Col xs={5} md={2} lg={2}>
-                        <label>Solaire</label>
-                    </Col>
-                    <Col xs={6} md={4} lg={2}>
-                        <InputGroup >
-                            <Form.Select
-                                name="solarId"
-                                onChange={(e) => {
-                                    handleChangeOrder(e)
-                                    handleChangeCoating(e)
-                                }}
+                                <i className="fa fa-solid fa-eraser"></i>
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                        <Col xs={4} md={2} lg={2}>
+                            <label>Solaire</label>
+                        </Col>
+                        <Col xs={6} md={3} lg={2}>
+                            <InputGroup >
+                                <Form.Select
+                                    name="solarId"
+                                    value={orderFields.solarId || "-"}
+                                    onChange={(e) => {
+                                        handleChangeOrder(e)
+                                        handleChangeCoating(e)
+                                    }}
+                                >
+                                    <option className={`d-none`} value="-">-</option>
+                                    {props.coatings && Object.values(props.coatings)
+                                        .filter(coating => coating.typeCoatingId === 3)
+                                        .map(coating => (
+                                            <option
+                                                key={coating.availableCoatingId}
+                                                value={coating.availableCoatingId}
+                                            >
+                                                {coating.coatingName}
+                                            </option>
+                                        ))}
+                                </Form.Select>
+                            </InputGroup>
+                        </Col>
+                        <Col xs={4} md={3} lg={2}>
+                            <label>prix par verre</label>
+                        </Col>
+                        <Col xs={4} md={3} lg={2}>
+                            <InputGroup>
+                                <Form.Control
+                                    type="text"
+                                    value={priceCoatingFields.solar !== 0 ? `${priceCoatingFields.solar} euros` : ""}
+                                    readOnly
+                                />
+                            </InputGroup>
+                        </Col>
+                        <Col xs={1}>
+                            <Button
+                                onClick={() => resetField("solarId")}
                             >
-                                <option className={`d-none`} value="-">-</option>
-                                {props.coatings && Object.values(props.coatings)
-                                    .filter(coating => coating.typeCoatingId === 3)
-                                    .map(coating => (
-                                        <option
-                                            key={coating.availableCoatingId}
-                                            value={coating.availableCoatingId}
-                                        >
-                                            {coating.coatingName}
-                                        </option>
-                                    ))}
-                            </Form.Select>
-                        </InputGroup>
-                    </Col>
-                    <Col xs={5} md={3} lg={2}>
-                        <label>prix par verre</label>
-                    </Col>
-                    <Col xs={6} md={3} lg={2}>
-                        <InputGroup>
-                            <Form.Control
-                                type="text"
-                                value={priceCoatingFields.solar !== 0 ? `${priceCoatingFields.solar} euros` : ""}
-                                readOnly
-                            />
-                        </InputGroup>
-                    </Col>
-                </Row>
-            </Card>
+                                <i className="fa fa-solid fa-eraser"></i>
+                            </Button>
+                        </Col>
+                    </Row>
+                </Card>
             )}
             {refractiveValueFields.price !== "" && lensFields.price !== "" && (
-            <Card className="max-width-50-rem p-0 mb-3 mt-3">
-                <Card.Header className="text-center">Prix Finale</Card.Header>
-                <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                <Card className="max-width-50-rem p-0 mb-3 mt-3">
+                    <Card.Header className="text-center">Prix Finale</Card.Header>
+                    <Row className="ps-3 pe-3 mb-3 mt-3 align-items-center">
+                        <Col className="text-center">
+                            <label>{finalCalculatedPrice}</label>
+                        </Col>
+                    </Row>
+                </Card>
+            )}
+            {refractiveValueFields.price !== "" && lensFields.price !== "" && (
+                <Row className="pb-3 ps-3 pe-3">
                     <Col className="text-center">
-                        <label>{finalCalculatedPrice}</label>
+                        <Button variant="success" onClick={() => props.placeOrder(orderFields,
+                            lensTypeFields, lensFields, refractiveValueFields
+                        )}>
+                            Confirmation de la commande
+                        </Button>
+                        {props.message && (
+                            <div className="text-danger mt-2">
+                                {props.message.split('\n').map((line, index) => (
+                                    <div key={index}>{line}</div>
+                                ))}
+                            </div>
+                        )}
                     </Col>
                 </Row>
-            </Card>
-            )}
-            {refractiveValueFields.price !== "" && lensFields.price !== "" &&(
-            <Row className="pb-3 ps-3 pe-3">
-                <Col className="text-center">
-                    <Button variant="success" onClick={() => props.placeOrder(orderFields,
-                        lensTypeFields, lensFields, refractiveValueFields
-                    )}>
-                        Confirmation de la commande
-                    </Button>
-                    {props.message && (
-                        <div className="text-danger mt-2">
-                            {props.message.split('\n').map((line, index) => (
-                                <div key={index}>{line}</div>
-                            ))}
-                        </div>
-                    )}
-                </Col>
-            </Row>
             )}
         </Row>
     )
