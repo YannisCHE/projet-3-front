@@ -6,10 +6,10 @@ import { myContext } from "../index";
 import Welcome from "./Welcome";
 import ConnectionController from "./Controller/ConnectionController";
 import OrdersController from "./Controller/OrdersController";
-import CatalogController from "./Controller/CatalogController";
 import RegisterController from "./Controller/RegisterController";
 import SummaryController from "./Controller/SummaryController";
 import HistoryController from "./Controller/HistoryController";
+import StatisticController from "./Controller/StatisticController";
 
 export default function App(){
 
@@ -52,9 +52,9 @@ export default function App(){
                   <i className='fa fa-table-list me-2 navbar-icon'></i>
                   Historique 
                 </Nav.Link>
-                <Nav.Link as={Link} eventKey='3' to="/catalog" hidden={user === null || user.role !== "ADMIN"}>
-                  <i className='fa fa-table-list me-2 navbar-icon'></i>
-                  Catalogue
+                <Nav.Link as={Link} eventKey='3' to="/statistic" hidden={user === null || user.role !== "ADMIN"}>
+                  <i className='fa fa-chart-line me-2 navbar-icon'></i>
+                  Statistique
                 </Nav.Link>
                 <Nav.Link as={Link} eventKey='4' to="/connection" hidden={user !== null}>
                   <i className='fa fa-key me-2 navbar-icon'></i>
@@ -85,7 +85,7 @@ export default function App(){
               <Route exact path="/connection" element={<ConnectionController />} />
               <Route exact path="/register" element={<RegisterController />} />
               <Route exact path="/orders" element={<OrdersController/>} />
-              <Route exact path="/catalog" element={<CatalogController/>} />
+              <Route exact path="/statistic" element={<StatisticController/>} />
               <Route exact path="/summary" element={<SummaryController/>} />
               <Route exact path="/history" element={<HistoryController/>} />
             </Routes>
