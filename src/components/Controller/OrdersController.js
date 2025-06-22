@@ -89,7 +89,7 @@ export default function OrdersController() {
     }
 
     function placeOrder(orderFields, lensTypeFields, lensFields, refractiveValueFields) {
-        
+
         const rightLens = {
             sphere: orderFields.sphereOD,
             cylinder: orderFields.cylinderOD,
@@ -142,24 +142,24 @@ export default function OrdersController() {
                 }
             })
             .then(result => {
-                if (result && !isNaN(result)) { 
+                if (result && !isNaN(result)) {
                     navigate("/summary", { state: { orderId: result } });
                 } else {
-                    setMessage(result); 
+                    setMessage(result);
                 }
             });
     }
     return (
         <OrderView
+            lensTypes={lensTypes}
+            materials={materials}
+            diameters={diameters}
             rangeSpheres={rangeSpheres}
             rangeCylinders={rangeCylinders}
             rangeAdditions={rangeAdditions}
             refractiveValues={refractiveValues}
-            materials={materials}
             coatings={coatings}
-            diameters={diameters}
             availableLens={availableLens}
-            lensTypes={lensTypes}
             message={message}
             fetchRefractiveValues={(materialId) => fetchRefractiveValues(materialId)}
             fetchAvailableLens={(lensType) => fetchAvailableLens(lensType)}

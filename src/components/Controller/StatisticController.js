@@ -29,7 +29,7 @@ export default function StatisticController() {
                     moyenne: item.meanCorrection
                 }));
                 setData(tempData);
-                setDataType("moyenne")
+                setDataType("dioptrie")
             })
             .catch(error => {
                 console.error("Error fetching the data for the corrections:", error);

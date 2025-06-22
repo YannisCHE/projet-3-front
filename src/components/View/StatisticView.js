@@ -29,7 +29,7 @@ export default function StatisticView(props) {
         <Container className="pt-5">
             <Row className="text-center align-items-center mb-4">
                 <Col sm={4}>
-                    <label>Quel données voulez-vous visualiser ?</label>
+                    <label>Quelles données voulez-vous visualiser (sur les 5 dernieres années)?</label>
                 </Col>
                 <Col sm={6}>
                     <InputGroup >
