@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { myContext } from "../../index";
 import { getBackUrl } from "./backUrl";
-import ConnectionView from "../view/ConnectionView";
+import ConnectionView from "../View/ConnectionView";
 
 export default function ConnectionController() {
 
